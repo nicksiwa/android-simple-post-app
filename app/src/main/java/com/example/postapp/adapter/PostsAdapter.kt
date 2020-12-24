@@ -26,6 +26,7 @@ class PostsAdapter(
 
     override fun onBindViewHolder(holder: PostsViewHolder, position: Int) {
         holder.title.text = posts[position].title
+        holder.body.text = posts[position].body
         holder.itemView.setOnClickListener {
             val intent = Intent(context, PostDetail::class.java)
             intent.putExtra("postID", posts[position].id)
@@ -39,5 +40,6 @@ class PostsAdapter(
 }
 
 class PostsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    val title: TextView = itemView.findViewById<TextView>(R.id.post_item_title)
+    val title: TextView = itemView.findViewById(R.id.post_item_title)
+    val body: TextView = itemView.findViewById(R.id.post_item_body)
 }
