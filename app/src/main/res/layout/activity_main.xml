@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:orientation="vertical">
 
     <ProgressBar
         android:id="@+id/post_list_loader"
@@ -11,8 +12,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
+    <Button
+        android:text="Create Post"
+        android:onClick="onClickCreatePost"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/post_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
 </LinearLayout>

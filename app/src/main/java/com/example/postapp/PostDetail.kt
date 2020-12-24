@@ -1,5 +1,6 @@
 package com.example.postapp
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -14,17 +15,27 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class PostDetail : AppCompatActivity() {
+    private lateinit var postViewTitle: TextView
+    private lateinit var postViewBody: TextView
+    private lateinit var loader: ProgressBar
+    private var postID: Int? = null
+    private val request = ServiceBuilder.buildService(IService::class.java)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_post_detail)
 
-        val postViewTitle = findViewById<TextView>(R.id.post_detail_title)
-        val postViewBody = findViewById<TextView>(R.id.post_detail_body)
-        val loader = findViewById<ProgressBar>(R.id.post_detail_loader)
+        postViewTitle = findViewById(R.id.post_detail_title)
+        postViewBody = findViewById(R.id.post_detail_body)
+        loader = findViewById(R.id.post_detail_loader)
         val intent = intent.extras
-        val postID: String = intent?.get("postID").toString()
-        val request = ServiceBuilder.buildService(IService::class.java)
-        val call = request.getPost(postID)
+        postID = intent?.get("postID").toString().toInt()
+
+        getPostById(postID!!)
+    }
+
+    private fun getPostById(postId: Int) {
+        val call = request.getPost(postId)
 
         call.enqueue(object : Callback<Post> {
             override fun onResponse(call: Call<Post>, response: Response<Post>) {
@@ -38,5 +49,33 @@ class PostDetail : AppCompatActivity() {
                 Toast.makeText(this@PostDetail, "${t.message}", Toast.LENGTH_LONG).show()
             }
         })
+    }
+
+    private fun deletePost(postId: Int) {
+        val call = request.deletePost(postId)
+
+        call.enqueue(object : Callback<Post> {
+            override fun onResponse(call: Call<Post>, response: Response<Post>) {
+                val intent = Intent(this@PostDetail, MainActivity::class.java)
+                startActivity(intent)
+                Toast.makeText(this@PostDetail, "Delete Successful", Toast.LENGTH_LONG).show()
+            }
+
+            override fun onFailure(call: Call<Post>, t: Throwable) {
+                Toast.makeText(this@PostDetail, "${t.message}", Toast.LENGTH_LONG).show()
+            }
+        })
+    }
+
+    fun clickEditPost(view: View) {
+        val intent = Intent(this, EditPostActivity::class.java)
+        intent.putExtra("id", postID)
+        intent.putExtra("title", postViewTitle.text)
+        intent.putExtra("body", postViewBody.text)
+        startActivity(intent)
+    }
+
+    fun clickDeletePost(view: View) {
+        deletePost(postID!!)
     }
 }

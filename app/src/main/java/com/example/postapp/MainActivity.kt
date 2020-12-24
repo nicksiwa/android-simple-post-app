@@ -1,11 +1,11 @@
 package com.example.postapp
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.Toast
-import androidx.core.view.isGone
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.postapp.adapter.PostsAdapter
@@ -41,5 +41,10 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this@MainActivity, "${t.message}", Toast.LENGTH_LONG).show()
             }
         })
+    }
+
+    fun onClickCreatePost(view: View) {
+        val intent = Intent(this, CreatePostActivity::class.java)
+        startActivity(intent)
     }
 }
