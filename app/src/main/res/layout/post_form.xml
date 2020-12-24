@@ -7,19 +7,27 @@
     android:layout_margin="10dp"
     android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/post_title_edit_text"
-        android:hint="Title"
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_marginBottom="20dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp" />
+        android:layout_height="wrap_content">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/post_title_edit_text"
+            android:hint="Title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <EditText
-        android:id="@+id/post_body_edit_text"
-        android:hint="Body"
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_marginBottom="20dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp" />
+        android:layout_height="wrap_content">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/post_body_edit_text"
+            android:hint="Body"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:text="Save"
