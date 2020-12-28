@@ -3,6 +3,8 @@ package com.example.postapp
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.Toast
@@ -20,6 +22,15 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        if (!AppPreferences.isLogin) {
+            Toast.makeText(this, "Login False", Toast.LENGTH_SHORT).show()
+
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+        } else {
+            Toast.makeText(this, "Login True", Toast.LENGTH_SHORT).show()
+        }
 
         val loader = findViewById<ProgressBar>(R.id.post_list_loader)
         val request = ServiceBuilder.buildService(IService::class.java)
@@ -41,6 +52,19 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this@MainActivity, "${t.message}", Toast.LENGTH_LONG).show()
             }
         })
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.options_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.logout_btn -> AppPreferences.isLogin = false
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 
     fun onClickCreatePost(view: View) {
